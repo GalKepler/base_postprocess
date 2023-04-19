@@ -1,12 +1,12 @@
 # This file contains values from Cookiecutter
 
 default_context:
-  project_name: "base-tracts"
+  project_name: "base-postprocess"
   project_description: "Tractography pipeline(s) for TheBase scanning protocol"
-  organization: "base-tracts"
+  organization: "base-postprocess"
   license: "MIT"
   minimal_python_version: 3.9
-  github_name: "python-basetracts"
+  github_name: "python-postprocess"
   email: "galkepler@gmail.com"
   version: "0.1.0"
   line_length: "88"

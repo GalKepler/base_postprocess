@@ -7,8 +7,8 @@ from random import choice
 import typer
 from rich.console import Console
 
-from base_tracts import version
-from base_tracts.example import hello
+from base_postprocess import version
+from base_postprocess.example import hello
 
 
 class Color(str, Enum):
@@ -21,7 +21,7 @@ class Color(str, Enum):
 
 
 app = typer.Typer(
-    name="base-tracts",
+    name="base-postprocess",
     help="Tractography pipeline(s) for TheBase scanning protocol",
     add_completion=False,
 )
@@ -32,7 +32,7 @@ def version_callback(print_version: bool) -> None:
     """Print the version of the package."""
     if print_version:
         console.print(
-            f"[yellow]base-tracts[/] version: [bold blue]{version}[/]"
+            f"[yellow]base-postprocess[/] version: [bold blue]{version}[/]"
         )  # noqa: E501
         raise typer.Exit()
 
@@ -54,7 +54,7 @@ def main(
         "--version",
         callback=version_callback,
         is_eager=True,
-        help="Prints the version of the base-tracts package.",
+        help="Prints the version of the base-postprocess package.",
     ),
 ) -> None:
     """Print a greeting with a giving name."""
