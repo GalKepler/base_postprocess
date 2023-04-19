@@ -74,6 +74,7 @@ class Atlas:
             if Path(data).exists():
                 data = Path(data).absolute()
                 shutil.copy(data, self.path)
+                data = self.path / Path(data).name
         setattr(self, title, data)
 
     def to_json(self):
