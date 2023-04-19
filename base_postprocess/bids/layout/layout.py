@@ -3,6 +3,7 @@ from typing import Union
 from pathlib import Path
 
 from bids import BIDSLayout
+from bids.exceptions import ConfigError
 from bids.layout import add_config_paths
 
 from base_postprocess.bids.config.configurations import CONFIGURATIONS
@@ -15,7 +16,14 @@ class QSIPREPLayout:
     qsiprep-specific functionality.
     """
 
-    def __init__(self, path: Union[Path, str]) -> None:
+    DATABASE_FILE_NAME = "qsiprep_layout.db"
+
+    def __init__(
+        self,
+        root: Union[Path, str] = None,
+        database_path: Union[Path, str] = None,
+        reset_database: bool = False,
+    ) -> None:
         """
         Initialize a QSIPREPLayout object.
 
@@ -24,9 +32,14 @@ class QSIPREPLayout:
         path : Union[Path, str]
             The path to the entity directory.
         """
-        self.path = Path(path)
+        self.path = Path(root)
         self.add_configurations()
-        self.layout = BIDSLayout(self.path, validate=True)
+        self.layout = BIDSLayout(
+            self.path,
+            validate=False,
+            database_path=database_path,
+            reset_database=reset_database,
+        )
 
     def add_configurations(self, configurations: dict = CONFIGURATIONS) -> None:
         """
@@ -37,4 +50,8 @@ class QSIPREPLayout:
         configurations : dict
             A dictionary containing the configuration files.
         """
-        add_config_paths(**configurations)
+        for name, configuration_file in configurations.items():
+            try:
+                add_config_paths(**{name: configuration_file})
+            except ConfigError:
+                pass
