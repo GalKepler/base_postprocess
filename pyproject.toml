@@ -37,6 +37,7 @@ python = "^3.9"
 typer = {extras = ["all"], version = "^0.7.0"}
 rich = "^12.6.0"
 jupyter = "^1.0.0"
+pybids = "^0.15.6"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.1"

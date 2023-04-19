@@ -65,17 +65,21 @@ class Subject(BIDSEntity):
         datatype = entities.pop("datatype", None)
         if not datatype:
             raise ValueError("The datatype entity is required.")
-        regex = (
+        sub_dir = (
             "*"
             if "session" not in entities
             else self.ENTITIES_FORMATS.get("session") + entities.pop("session") + "/*"
         )
+        regex = "*"
         for entity, value in self.ENTITIES_FORMATS.items():
-            if entity in entities:
+            if entity in entities and entity != "extension":
                 regex += f"_{value.format(**entities)}"
             elif entity == "extension":
-                regex += ".nii*" if not return_associated else ".*"
-        return list(self.path.glob(f"{datatype}/{regex}"))
+                extension = entities.get(entity, "nii*")
+                extension = extension if extension.startswith(".") else f".{extension}"
+                regex += extension if not return_associated else ".*"
+        print(f"{sub_dir}/{datatype}/{regex}")
+        return list(self.path.glob(f"{sub_dir}/{datatype}/{regex}"))
 
     def get_sessions(self) -> list[Session]:
         return [Session(session) for session in self.path.glob(Session.PREFIX + "*")]
