@@ -4,7 +4,7 @@ PYTHON := python
 PYTHONPATH := `pwd`
 
 #* Docker variables
-IMAGE := base_tracts
+IMAGE := base_postprocess
 VERSION := latest
 
 #* Poetry
@@ -40,7 +40,7 @@ formatting: codestyle
 #* Linting
 .PHONY: test
 test:
-	PYTHONPATH=$(PYTHONPATH) poetry run pytest -c pyproject.toml --cov-report=html --cov=base_tracts tests/
+	PYTHONPATH=$(PYTHONPATH) poetry run pytest -c pyproject.toml --cov-report=html --cov=base_postprocess tests/
 	poetry run coverage-badge -o assets/images/coverage.svg -f
 
 .PHONY: check-codestyle
@@ -56,7 +56,7 @@ mypy:
 check-safety:
 	poetry check
 	poetry run safety check --full-report
-	poetry run bandit -ll --recursive base_tracts tests
+	poetry run bandit -ll --recursive base_postprocess tests
 
 .PHONY: lint
 lint: test check-codestyle mypy check-safety

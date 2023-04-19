@@ -4,14 +4,14 @@ requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "base-tracts"
+name = "base-postprocess"
 version = "0.1.0"
 description = "Tractography pipeline(s) for TheBase scanning protocol"
 readme = "README.md"
-authors = ["base-tracts <galkepler@gmail.com>"]
+authors = ["base-postprocess <galkepler@gmail.com>"]
 license = "MIT"
-repository = "https://github.com/base_tracts/base-tracts"
-homepage = "https://github.com/base_tracts/base-tracts"
+repository = "https://github.com/base_postprocess/base-postprocess"
+homepage = "https://github.com/base_postprocess/base-postprocess"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []  #! Update me
@@ -29,7 +29,7 @@ classifiers = [  #! Update me
 
 [tool.poetry.scripts]
 # Entry points for the package https://python-poetry.org/docs/pyproject/#scripts
-"base-tracts" = "base_tracts.__main__:app"
+"base-postprocess" = "base_postprocess.__main__:app"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -37,6 +37,7 @@ python = "^3.9"
 typer = {extras = ["all"], version = "^0.7.0"}
 rich = "^12.6.0"
 jupyter = "^1.0.0"
+pybids = "^0.15.6"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.1"
@@ -54,7 +55,7 @@ pyupgrade = "^3.3.1"
 safety = "^2.3.4"
 coverage = "^7.2.3"
 coverage-badge = "^1.1.0"
-pytest-html = "^3.1.1"
+pytest-html = "^3.2.0"
 pytest-cov = "^4.0.0"
 
 [tool.black]
@@ -137,7 +138,7 @@ addopts = [
 source = ["tests"]
 
 [coverage.paths]
-source = "base-tracts"
+source = "base-postprocess"
 
 [coverage.run]
 branch = true
