@@ -68,11 +68,9 @@ class Subject(BIDSEntity):
         regex = (
             "*"
             if "session" not in entities
-            else super().ENTITIES_FORMATS.get("session")
-            + entities.pop("session")
-            + "/*"
+            else self.ENTITIES_FORMATS.get("session") + entities.pop("session") + "/*"
         )
-        for entity, value in super().ENTITIES_FORMATS.items():
+        for entity, value in self.ENTITIES_FORMATS.items():
             if entity in entities:
                 regex += f"_{value.format(**entities)}"
             elif entity == "extension":
