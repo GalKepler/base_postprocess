@@ -2,8 +2,8 @@ from typing import Union
 
 from pathlib import Path
 
-from base_postprocess.entities.bids_entities import BIDSEntity
-from base_postprocess.entities.bids_entities.session.session import Session
+from base_postprocess.bids.bids_entities import BIDSEntity
+from base_postprocess.bids.bids_entities.session.session import Session
 
 
 class Subject(BIDSEntity):

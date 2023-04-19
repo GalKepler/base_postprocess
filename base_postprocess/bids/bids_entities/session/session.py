@@ -5,7 +5,7 @@ from typing import Union
 import datetime
 from pathlib import Path
 
-from base_postprocess.entities.bids_entities import BIDSEntity
+from base_postprocess.bids.bids_entities import BIDSEntity
 
 
 class Session(BIDSEntity):
