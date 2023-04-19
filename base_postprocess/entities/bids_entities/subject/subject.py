@@ -13,29 +13,54 @@ class Subject(BIDSEntity):
 
     PREFIX = "sub-"
 
-    def __init__(self, path: Union[str, Path]) -> None:
-        super().__init__(path=path)
+    def __init__(self, path: Union[Path, str]) -> None:
+        """
+        Initialize a Subject object.
+
+        Parameters
+        ----------
+        path : Union[Path, str]
+            The path to the subject directory.
+        """
+        super().__init__(path)
 
     def __repr__(self) -> str:
+        """
+        Return a string representation of the Subject object.
+
+        Returns
+        -------
+        str
+            The string representation of the Subject object.
+        """
         return f"Subject <{self.id}"
 
     def __str__(self) -> str:
+        """
+        Return a string representation of the Subject object.
+
+        Returns
+        -------
+        str
+            The string representation of the Subject object.
+        """
         return self.id
 
     def get(self, entities: dict, return_associated: bool = False) -> list[Path]:
-        """_summary_
+        """
+        Get a list of files that match the given entities.
 
         Parameters
         ----------
         entities : dict
-            _description_
+            BIDS entities to match.
         return_associated : bool, optional
-            _description_, by default False
+            Whether to return associated files, by default False
 
         Returns
         -------
         list[Path]
-            _description_
+            A list of files that match the given entities.
         """
         datatype = entities.pop("datatype", None)
         if not datatype:
@@ -43,9 +68,11 @@ class Subject(BIDSEntity):
         regex = (
             "*"
             if "session" not in entities
-            else self.ENTITIES_FORMATS.get("session") + entities.pop("session") + "/*"
+            else super().ENTITIES_FORMATS.get("session")
+            + entities.pop("session")
+            + "/*"
         )
-        for entity, value in self.ENTITIES_FORMATS.items():
+        for entity, value in super().ENTITIES_FORMATS.items():
             if entity in entities:
                 regex += f"_{value.format(**entities)}"
             elif entity == "extension":
