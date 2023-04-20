@@ -1,5 +1,6 @@
-from pathlib import Path
+from typing import Union
 
+from nipype.interfaces import fsl
 from nipype.interfaces.ants import ApplyTransforms
 
 from base_postprocess.bids.atlases.atlas import Atlas
@@ -74,7 +75,9 @@ class RegisterAtlas(Procedure):
                 result[key] = value
         return result
 
-    def register_to_anatomical_reference(self, inputs: dict, args: dict = None) -> Path:
+    def register_to_anatomical_reference(
+        self, inputs: dict, args: dict = None, force: bool = False
+    ) -> dict:
         """
         Register the atlas to the anatomical reference.
 
@@ -86,20 +89,24 @@ class RegisterAtlas(Procedure):
             The entities to use for the output file.
         args : dict, optional
             The arguments to pass to the function, by default {}
+        force : bool, optional
+            Whether to force the registration, by default False
 
         Returns
         -------
-        Path
-            The path to the output file.
+        dict
+            The outputs of the function.
         """
         args = (
             args
             if args is not None
             else self.ARGUMENTS.get("register_to_anatomical_reference").get("args")
         )
-        inputs, outputs = self.update_inputs_for_step(
+        inputs, outputs, outputs_exist = self.update_io_for_step(
             step_name="register_to_anatomical_reference", inputs=inputs
         )
+        if not force and all(outputs_exist):
+            return outputs
         runner = ApplyTransforms(
             **inputs,
             **args,
@@ -107,9 +114,62 @@ class RegisterAtlas(Procedure):
         runner.run()
         return outputs
 
-    def run(self, subject: str) -> None:
+    def threshold_probseg(
+        self, inputs: dict, args: dict = None, force: bool = False
+    ) -> dict:
+        """
+        Crop the atlas to the probseg.
+
+        Parameters
+        ----------
+        inputs : dict
+            The inputs to the function.
+        output_entities : dict
+            The entities to use for the output file.
+        args : dict, optional
+            The arguments to pass to the function, by default {}
+        force : bool, optional
+            Whether to force the registration, by default False
+
+        Returns
+        -------
+        dict
+            The outputs of the function.
+        """
+        args = (
+            args
+            if args is not None
+            else self.ARGUMENTS.get("threshold_probseg").get("args")
+        )
+        inputs, outputs, outputs_exist = self.update_io_for_step(
+            step_name="threshold_probseg", inputs=inputs
+        )
+        if not force and all(outputs_exist):
+            return outputs
+        runner = fsl.Threshold(**inputs, **args)
+        runner.run()
+        return outputs
+
+    def run(self, subjects: Union[list, str], force: bool = False) -> None:
         """
         Run the procedure.
+
+        Parameters
+        ----------
+        subject : Union[list,str]
+            The subject to run the procedure on.
+        force : bool, optional
+            Whether to force the registration, by default False
         """
-        for step in self.steps:
-            step["function"](**{key: step[key] for key in step["inputs"]})
+        outputs = {}
+        if isinstance(subjects, str):
+            subjects = [subjects]
+        for subject in subjects:
+            outputs[subject] = {}
+            inputs = self.collect_required_inputs(subject=subject)
+            outputs[subject].update(
+                self.register_to_anatomical_reference(inputs=inputs)
+            )
+            inputs.update(outputs[subject])
+            outputs[subject].update(self.threshold_probseg(inputs=inputs))
+        return outputs

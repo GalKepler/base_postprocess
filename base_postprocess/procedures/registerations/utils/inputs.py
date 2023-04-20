@@ -53,5 +53,12 @@ ARGUMENTS = {
             "output_image": "output_image",
         },
         "args": {"interpolation": "NearestNeighbor"},
-    }
+    },
+    "threshold_probseg": {
+        "inputs": {
+            "in_file": "gm_probabilistic_segmentation",
+            "out_file": "output_image",
+        },
+        "args": {"thresh": 0.01, "direction": "below"},
+    },
 }

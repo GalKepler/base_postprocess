@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from base_postprocess.bids.layout.layout import QSIPREPLayout
 
 
@@ -46,7 +48,7 @@ class Procedure:
         """
         pass
 
-    def update_inputs_for_step(self, step_name: str, inputs: dict) -> dict:
+    def update_io_for_step(self, step_name: str, inputs: dict) -> dict:
         """
         Update the inputs for a step.
 
@@ -62,24 +64,27 @@ class Procedure:
         dict
             The updated inputs.
         """
-        outputs = self.OUTPUTS.get(step_name).copy()
-        entities = outputs.get("entities").copy()
-        entities["atlas"] = self.atlas.name
-        output_entities = self.layout.parse_file_entities(
-            inputs.get(outputs.get("reference"))
-        )
-        output_entities.update(entities)
-        outputs = {
-            outputs.get("output_name"): self.layout.build_path(
-                output_entities, validate=False
+        outputs = {}
+        outputs_exist = []
+        outputs_config = self.OUTPUTS.get(step_name).copy()
+        for output_name, output_values in outputs_config.items():
+            entities = output_values.get("entities").copy()
+            entities["atlas"] = self.atlas.name
+            output_entities = self.layout.parse_file_entities(
+                inputs.get(output_values.get("reference"))
             )
-        }
-        inputs.update(outputs)
+            output_entities.update(entities)
+            output = self.layout.build_path(output_entities, validate=False)
+            outputs[f"{step_name}_{output_name}"] = output
+            outputs_exist.append(Path(output).exists())
+            include_in_inputs = output_values.get("include_in_inputs", True)
+            if include_in_inputs:
+                inputs[output_name] = output
         mapped_inputs = {
             key: inputs.get(val)
             for key, val in self.ARGUMENTS.get(step_name).get("inputs").items()
         }
-        return mapped_inputs, outputs
+        return mapped_inputs, outputs, outputs_exist
 
     def run(self) -> None:
         """
