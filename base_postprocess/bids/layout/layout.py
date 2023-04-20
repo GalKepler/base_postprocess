@@ -67,3 +67,22 @@ class QSIPREPLayout(BIDSLayout):
                 pass
             config_names.append(name)
         return config_names
+
+    def get_file_by_entities(self, entities: dict):
+        """
+        Get a file from the layout by entities.
+
+        Parameters
+        ----------
+        entities : dict
+            A dictionary containing the entities.
+
+        Returns
+        -------
+        str
+            The path to the file.
+        """
+        result = self.get(**entities, return_type="file")
+        if len(result) > 1:
+            raise ValueError(f"More than one file found for {entities}")
+        return result[0]

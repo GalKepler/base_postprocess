@@ -1,63 +1,48 @@
-from base_postprocess.bids.layout.layout import QSIPREPLayout
+# from typing import Union
+
+# from pathlib import Path
+
+# from nipype.interfaces.ants import ApplyTransforms
+
+# from base_postprocess.bids.layout.layout import QSIPREPLayout
+# from base_postprocess.procedures.registerations.utils.static import (
+#     REGISTER_TO_ANATOMICAL_REFERENCE,
+# )
 
 
-def collect_requirements(layout: QSIPREPLayout, subject: str, requirements: dict):
-    """
-    Collect the requirements for a procedure.
+# def register_to_anatomical_reference(
+#     layout: QSIPREPLayout,
+#     input_image: Union[Path, str],
+#     mni_to_native: Union[Path, str],
+#     anatomical_reference: Union[Path, str],
+#     args: dict = {},
+#     output_entities: dict = REGISTER_TO_ANATOMICAL_REFERENCE,
+# ):
+#     """
+#     Register an image to the anatomical reference.
 
-    Parameters
-    ----------
-    layout : QSIPREPLayout
-        A QSIPREPLayout object.
-    subject : str
-        The subject to collect the requirements for.
-    requirements : dict
-        A dictionary containing the requirements.
-
-    Returns
-    -------
-    dict
-        A dictionary containing the requirements.
-
-    Raises
-    ------
-    ValueError
-        If the scope is unknown.
-    """
-    result = {}
-    for key, description in requirements.items():
-        scope = description["scope"]
-        entities = description["entities"].copy()
-        entities["subject"] = subject
-        if scope == "session":
-            result[key] = {}
-            for session in layout.get_sessions(subject=subject):
-                entities["session"] = session
-                value = get_file_by_entities(layout, entities)
-                result[key][session] = value
-        elif scope == "subject":
-            value = get_file_by_entities(layout, entities)
-            result[key] = value
-    return result
-
-
-def get_file_by_entities(layout: QSIPREPLayout, entities: dict):
-    """
-    Get a file from the layout by entities.
-
-    Parameters
-    ----------
-    layout : QSIPREPLayout
-        A QSIPREPLayout object.
-    entities : dict
-        A dictionary containing the entities.
-
-    Returns
-    -------
-    str
-        The path to the file.
-    """
-    result = layout.get(**entities, return_type="file")
-    if len(result) > 1:
-        raise ValueError(f"More than one file found for {entities}")
-    return result[0]
+#     Parameters
+#     ----------
+#     input_image : Union[Path,str]
+#         Input image to register.
+#     mni_to_native : Union[Path,str]
+#         The MNI to native transform.
+#     anatomical_reference : Union[Path,str]
+#         The anatomical reference image.
+#     output_image : Union[Path,str]
+#         The output image.
+#     args : dict
+#         Additional arguments to pass to the ApplyTransforms interface.
+#     """
+#     output_image = layout.parse_file_entities(anatomical_reference)
+#     output_image.update(output_entities)
+#     output_image = layout.build_path(output_image, validate=False)
+#     runner = ApplyTransforms(
+#         input_image=str(input_image),
+#         reference_image=str(anatomical_reference),
+#         transforms=str(mni_to_native),
+#         output_image=str(output_image),
+#         **args,
+#     )
+#     runner.run()
+#     return output_image

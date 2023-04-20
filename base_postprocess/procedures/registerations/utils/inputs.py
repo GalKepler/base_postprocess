@@ -1,3 +1,7 @@
+#: Input and output entities for the registration procedure
+
+# Input entities
+
 REQUIRED_INPUTS = {
     "mni_to_native": {
         "scope": "subject",
@@ -38,4 +42,16 @@ REQUIRED_INPUTS = {
             "extension": ".nii.gz",
         },
     },
+}
+
+ARGUMENTS = {
+    "register_to_anatomical_reference": {
+        "inputs": {
+            "input_image": "input_image",
+            "reference_image": "anatomical_reference",
+            "transforms": "mni_to_native",
+            "output_image": "output_image",
+        },
+        "args": {"interpolation": "NearestNeighbor"},
+    }
 }

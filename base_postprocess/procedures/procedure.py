@@ -6,6 +6,10 @@ class Procedure:
     A general class used to represent a procedure.
     """
 
+    REQUIREMENTS = {}
+    OUTPUTS = {}
+    ARGUMENTS = {}
+
     def __init__(self, layout: QSIPREPLayout, name: str) -> None:
         """
         Initialize a Procedure object.
@@ -19,6 +23,7 @@ class Procedure:
         """
         self.name = name
         self.layout = layout
+        self.steps = []
 
     def collect_required_inputs(self, subject: str) -> None:
         """
@@ -30,6 +35,49 @@ class Procedure:
             The subject to collect the inputs for.
         """
         pass
+
+    def build_output_dictionary(self, subject: str) -> None:
+        """
+        Build the output dictionary for the procedure.
+
+        Parameters
+        ----------
+        subject : str
+            The subject to build the output dictionary for.
+        """
+        pass
+
+    def update_inputs_for_step(self, step_name: str, inputs: dict) -> dict:
+        """
+        Update the inputs for a step.
+
+        Parameters
+        ----------
+        step_name : str
+            The name of the step.
+        inputs : dict
+            The inputs to the step.
+
+        Returns
+        -------
+        dict
+            The updated inputs.
+        """
+        outputs = self.OUTPUTS.get(step_name).copy()
+        entities = outputs.get("entities").copy()
+        entities["atlas"] = self.atlas.name
+        output_entities = self.layout.parse_file_entities(
+            inputs.get(outputs.get("reference"))
+        )
+        output_entities.update(entities)
+        inputs[outputs.get("output_name")] = self.layout.build_path(
+            output_entities, validate=False
+        )
+        mapped_inputs = {
+            key: inputs.get(val)
+            for key, val in self.ARGUMENTS.get(step_name).get("inputs").items()
+        }
+        return mapped_inputs
 
     def run(self) -> None:
         """
