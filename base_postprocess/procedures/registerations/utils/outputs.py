@@ -38,8 +38,21 @@ OUTPUT_ENTITIES = {
                 "space": "T1w",
                 "suffix": "dseg",
                 "desc": "",
-                "res": "T1w",
+                "res": "dwi",
                 "label": "WholeBrain",
+            },
+            "include_in_inputs": True,
+        },
+    },
+    "register_gm_cropped_to_dwi_reference": {
+        "output_image": {
+            "reference": "dwi_reference",
+            "entities": {
+                "space": "T1w",
+                "suffix": "dseg",
+                "desc": "",
+                "res": "dwi",
+                "label": "GM",
             },
             "include_in_inputs": True,
         },

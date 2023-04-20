@@ -37,5 +37,16 @@ STEPS = {
         },
         "args": {"interpolation": "NearestNeighbor", "transforms": "identity"},
         "runner": ApplyTransforms,
+        "scope": "session",
+    },
+    "register_gm_cropped_to_dwi_reference": {
+        "inputs": {
+            "input_image": "apply_mask_output_image",
+            "reference_image": "dwi_reference",
+            "output_image": "output_image",
+        },
+        "args": {"interpolation": "NearestNeighbor", "transforms": "identity"},
+        "runner": ApplyTransforms,
+        "scope": "session",
     },
 }

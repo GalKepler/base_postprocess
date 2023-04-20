@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 
 from base_postprocess.bids.layout.layout import QSIPREPLayout
-from base_postprocess.utils.logger import initiate_logger
+from base_postprocess.utils import execute, initiate_logger
 
 
 class Procedure:
@@ -74,22 +74,46 @@ class Procedure:
         outputs_exist = []
         outputs_config = self.OUTPUTS.get(step_name).copy()
         for output_name, output_values in outputs_config.items():
+            include_in_inputs = output_values.get("include_in_inputs", True)
             entities = output_values.get("entities").copy()
             entities["atlas"] = self.atlas.name
-            output_entities = self.layout.parse_file_entities(
-                inputs.get(output_values.get("reference"))
-            )
-            output_entities.update(entities)
-            output = self.layout.build_path(output_entities, validate=False)
-            outputs[f"{step_name}_{output_name}"] = output
-            outputs_exist.append(Path(output).exists())
-            include_in_inputs = output_values.get("include_in_inputs", True)
-            if include_in_inputs:
-                inputs[output_name] = output
-        mapped_inputs = {
-            key: inputs.get(val)
-            for key, val in self.steps.get(step_name).get("inputs").items()
-        }
+            references = inputs.get(output_values.get("reference"))
+            if isinstance(references, dict):
+                mapped_inputs = {}
+                inputs[output_name] = {}
+                outputs[f"{step_name}_{output_name}"] = {}
+                for session, reference in references.items():
+                    output_entities = self.layout.parse_file_entities(reference)
+                    output_entities.update(entities)
+                    output = self.layout.build_path(output_entities, validate=False)
+                    outputs[f"{step_name}_{output_name}"][session] = output
+                    outputs_exist.append(Path(output).exists())
+                    if include_in_inputs:
+                        inputs[output_name][session] = output
+                    mapped_inputs[session] = {
+                        key: inputs.get(val)
+                        if not isinstance(val, dict)
+                        else val.get(session)
+                        for key, val in self.steps.get(step_name).get("inputs").items()
+                    }
+                for session, mapped_input in mapped_inputs.items():
+                    for key, val in mapped_input.items():
+                        if isinstance(val, dict):
+                            mapped_input[key] = val.get(session)
+
+            else:
+                output_entities = self.layout.parse_file_entities(references)
+                output_entities.update(entities)
+                output = self.layout.build_path(output_entities, validate=False)
+                outputs[f"{step_name}_{output_name}"] = output
+                outputs_exist.append(Path(output).exists())
+
+                if include_in_inputs:
+                    inputs[output_name] = output
+                mapped_inputs = {
+                    key: inputs.get(val)
+                    for key, val in self.steps.get(step_name).get("inputs").items()
+                }
         return mapped_inputs, outputs, outputs_exist
 
     def run_step(
@@ -126,14 +150,16 @@ class Procedure:
                     f"Skipping {step_name} as all outputs already exist: {outputs}"
                 )
             return outputs
-        runner = self.steps.get(step_name).get("runner")
-        runner = runner(**mapped_inputs, **args)
-        if logger:
-            logger.info(f"Running {step_name} with inputs: {mapped_inputs}")
-            logger.info("Executing: ")
-        runner.run()
-        if logger:
-            logger.info(f"Finished running {step_name}")
+        scope = self.steps.get(step_name).get("scope", "subject")
+        if scope == "subject":
+            runner = self.steps.get(step_name).get("runner")
+            runner = runner(**mapped_inputs, **args)
+            execute(step_name, runner, logger, inputs)
+        elif scope == "session":
+            for _, session_inputs in mapped_inputs.items():
+                runner = self.steps.get(step_name).get("runner")
+                runner = runner(**session_inputs, **args)
+                execute(step_name, runner, logger, inputs)
         return outputs
 
     def initiate_logging(self, subject: str) -> None:
