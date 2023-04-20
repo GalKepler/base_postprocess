@@ -1,18 +1,13 @@
 from typing import Union
 
-from nipype.interfaces import fsl
-from nipype.interfaces.ants import ApplyTransforms
-
 from base_postprocess.bids.atlases.atlas import Atlas
 from base_postprocess.bids.layout.layout import QSIPREPLayout
 from base_postprocess.procedures.procedure import Procedure
 
 # from base_postprocess.procedures.registerations.utils import REGISTER_ATLAS_STEPS
-from base_postprocess.procedures.registerations.utils.inputs import (
-    ARGUMENTS,
-    REQUIRED_INPUTS,
-)
+from base_postprocess.procedures.registerations.utils.inputs import REQUIRED_INPUTS
 from base_postprocess.procedures.registerations.utils.outputs import OUTPUT_ENTITIES
+from base_postprocess.procedures.registerations.utils.steps import STEPS
 
 
 class RegisterAtlas(Procedure):
@@ -22,14 +17,13 @@ class RegisterAtlas(Procedure):
 
     REQUIREMENTS = REQUIRED_INPUTS
     OUTPUTS = OUTPUT_ENTITIES
-    ARGUMENTS = ARGUMENTS
 
     def __init__(
         self,
         atlas: Atlas,
         layout: QSIPREPLayout,
         name: str = "register_atlas",
-        # steps: list = REGISTER_ATLAS_STEPS,
+        steps: dict = STEPS,
     ) -> None:
         """
         Initialize a RegisterAtlas object.
@@ -47,7 +41,7 @@ class RegisterAtlas(Procedure):
         """
         super().__init__(name=name, layout=layout)
         self.atlas = atlas
-        # self.steps = steps
+        self.steps = steps
         self.OUTPUTS["atlas"] = self.atlas.name
 
     def collect_required_inputs(self, subject: str) -> None:
@@ -75,81 +69,6 @@ class RegisterAtlas(Procedure):
                 result[key] = value
         return result
 
-    def register_to_anatomical_reference(
-        self, inputs: dict, args: dict = None, force: bool = False
-    ) -> dict:
-        """
-        Register the atlas to the anatomical reference.
-
-        Parameters
-        ----------
-        inputs : dict
-            The inputs to the function.
-        output_entities : dict
-            The entities to use for the output file.
-        args : dict, optional
-            The arguments to pass to the function, by default {}
-        force : bool, optional
-            Whether to force the registration, by default False
-
-        Returns
-        -------
-        dict
-            The outputs of the function.
-        """
-        args = (
-            args
-            if args is not None
-            else self.ARGUMENTS.get("register_to_anatomical_reference").get("args")
-        )
-        inputs, outputs, outputs_exist = self.update_io_for_step(
-            step_name="register_to_anatomical_reference", inputs=inputs
-        )
-        if not force and all(outputs_exist):
-            return outputs
-        runner = ApplyTransforms(
-            **inputs,
-            **args,
-        )
-        runner.run()
-        return outputs
-
-    def threshold_probseg(
-        self, inputs: dict, args: dict = None, force: bool = False
-    ) -> dict:
-        """
-        Crop the atlas to the probseg.
-
-        Parameters
-        ----------
-        inputs : dict
-            The inputs to the function.
-        output_entities : dict
-            The entities to use for the output file.
-        args : dict, optional
-            The arguments to pass to the function, by default {}
-        force : bool, optional
-            Whether to force the registration, by default False
-
-        Returns
-        -------
-        dict
-            The outputs of the function.
-        """
-        args = (
-            args
-            if args is not None
-            else self.ARGUMENTS.get("threshold_probseg").get("args")
-        )
-        inputs, outputs, outputs_exist = self.update_io_for_step(
-            step_name="threshold_probseg", inputs=inputs
-        )
-        if not force and all(outputs_exist):
-            return outputs
-        runner = fsl.Threshold(**inputs, **args)
-        runner.run()
-        return outputs
-
     def run(self, subjects: Union[list, str], force: bool = False) -> None:
         """
         Run the procedure.
@@ -165,11 +84,30 @@ class RegisterAtlas(Procedure):
         if isinstance(subjects, str):
             subjects = [subjects]
         for subject in subjects:
+            logger = self.initiate_logging(subject=subject)
             outputs[subject] = {}
             inputs = self.collect_required_inputs(subject=subject)
-            outputs[subject].update(
-                self.register_to_anatomical_reference(inputs=inputs)
+            inputs_to_log = (
+                f"Running {self.name} on subject {subject} with the following inputs:\n"
             )
-            inputs.update(outputs[subject])
-            outputs[subject].update(self.threshold_probseg(inputs=inputs))
+            for key, value in inputs.items():
+                inputs_to_log += f"{key}: {value}\n"
+            logger.info(inputs_to_log)
+            for step in self.steps:
+                outputs[subject].update(
+                    self.run_step(
+                        step_name=step,
+                        inputs=inputs,
+                        force=force,
+                        logger=logger,
+                    )
+                )
+                inputs.update(outputs[subject])
         return outputs
+
+    @property
+    def main_properties(self):
+        """
+        Return the main properties of the procedure.
+        """
+        return {"atlas": self.atlas.name}

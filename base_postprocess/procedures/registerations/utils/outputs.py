@@ -22,4 +22,26 @@ OUTPUT_ENTITIES = {
             "include_in_inputs": True,
         },
     },
+    "apply_mask": {
+        "output_image": {
+            "reference": "register_to_anatomical_reference_output_image",
+            "entities": {
+                "label": "GM",
+            },
+            "include_in_inputs": True,
+        },
+    },
+    "register_wholebrain_to_dwi_reference": {
+        "output_image": {
+            "reference": "dwi_reference",
+            "entities": {
+                "space": "T1w",
+                "suffix": "dseg",
+                "desc": "",
+                "res": "T1w",
+                "label": "WholeBrain",
+            },
+            "include_in_inputs": True,
+        },
+    },
 }

@@ -43,22 +43,3 @@ REQUIRED_INPUTS = {
         },
     },
 }
-
-ARGUMENTS = {
-    "register_to_anatomical_reference": {
-        "inputs": {
-            "input_image": "input_image",
-            "reference_image": "anatomical_reference",
-            "transforms": "mni_to_native",
-            "output_image": "output_image",
-        },
-        "args": {"interpolation": "NearestNeighbor"},
-    },
-    "threshold_probseg": {
-        "inputs": {
-            "in_file": "gm_probabilistic_segmentation",
-            "out_file": "output_image",
-        },
-        "args": {"thresh": 0.01, "direction": "below"},
-    },
-}
