@@ -97,7 +97,7 @@ class RegisterAtlas(Procedure):
             if args is not None
             else self.ARGUMENTS.get("register_to_anatomical_reference").get("args")
         )
-        inputs = self.update_inputs_for_step(
+        inputs, outputs = self.update_inputs_for_step(
             step_name="register_to_anatomical_reference", inputs=inputs
         )
         runner = ApplyTransforms(
@@ -105,7 +105,7 @@ class RegisterAtlas(Procedure):
             **args,
         )
         runner.run()
-        return
+        return outputs
 
     def run(self, subject: str) -> None:
         """

@@ -23,7 +23,6 @@ class Procedure:
         """
         self.name = name
         self.layout = layout
-        self.steps = []
 
     def collect_required_inputs(self, subject: str) -> None:
         """
@@ -70,17 +69,19 @@ class Procedure:
             inputs.get(outputs.get("reference"))
         )
         output_entities.update(entities)
-        inputs[outputs.get("output_name")] = self.layout.build_path(
-            output_entities, validate=False
-        )
+        outputs = {
+            outputs.get("output_name"): self.layout.build_path(
+                output_entities, validate=False
+            )
+        }
+        inputs.update(outputs)
         mapped_inputs = {
             key: inputs.get(val)
             for key, val in self.ARGUMENTS.get(step_name).get("inputs").items()
         }
-        return mapped_inputs
+        return mapped_inputs, outputs
 
     def run(self) -> None:
         """
         Run the procedure.
         """
-        pass
