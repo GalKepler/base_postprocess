@@ -41,7 +41,21 @@ class Procedure:
         subject : str
             The subject to collect the inputs for.
         """
-        pass
+        result = {}
+        for key, description in self.REQUIREMENTS.items():
+            scope = description["scope"]
+            entities = description["entities"].copy()
+            entities["subject"] = subject
+            if scope == "session":
+                result[key] = {}
+                for session in self.layout.get_sessions(subject=subject):
+                    entities["session"] = session
+                    value = self.layout.get_file_by_entities(entities)
+                    result[key][session] = value
+            elif scope == "subject":
+                value = self.layout.get_file_by_entities(entities)
+                result[key] = value
+        return result
 
     def build_output_dictionary(self, subject: str) -> None:
         """
