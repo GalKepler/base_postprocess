@@ -90,7 +90,9 @@ class Procedure:
         for output_name, output_values in outputs_config.items():
             include_in_inputs = output_values.get("include_in_inputs", True)
             entities = output_values.get("entities").copy()
-            entities["atlas"] = self.atlas.name
+            # if there's an atlas in the class's properties, add it to the entities
+            if hasattr(self, "atlas"):
+                entities["atlas"] = self.atlas.name
             references = inputs.get(output_values.get("reference"))
             if isinstance(references, dict):
                 mapped_inputs = {}

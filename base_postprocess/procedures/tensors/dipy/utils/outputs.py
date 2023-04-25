@@ -1,60 +1,28 @@
+DIFFUSION_TENSOR_OUTPUTS = dict(
+    tensor="tensor",
+    fa="fa",
+    ga="ga",
+    rgb="rgb",
+    md="md",
+    ad="ad",
+    rd="rd",
+    mode="mode",
+    evec="evecs",
+    eval="evals",
+)
+TENSOR_ENTITIES = {"suffix": "dwiref", "resolution": "dwi"}
 # Output entities
 OUTPUT_ENTITIES = {
-    "register_to_anatomical_reference": {
-        "output_image": {
-            "reference": "anatomical_reference",
+    "reconstruct_dti_workflow": {
+        key: {
+            "reference": "dwi_nifti",
             "entities": {
-                "space": "T1w",
-                "suffix": "dseg",
-                "desc": "",
-                "res": "T1w",
-                "label": "WholeBrain",
+                **TENSOR_ENTITIES,
+                "desc": val,
+                "acq": "dti",
             },
             "include_in_inputs": True,
-        },
-    },
-    "threshold_probseg": {
-        "output_image": {
-            "reference": "gm_probabilistic_segmentation",
-            "entities": {
-                "suffix": "mask",
-            },
-            "include_in_inputs": True,
-        },
-    },
-    "apply_mask": {
-        "output_image": {
-            "reference": "register_to_anatomical_reference_output_image",
-            "entities": {
-                "label": "GM",
-            },
-            "include_in_inputs": True,
-        },
-    },
-    "register_wholebrain_to_dwi_reference": {
-        "output_image": {
-            "reference": "dwi_reference",
-            "entities": {
-                "space": "T1w",
-                "suffix": "dseg",
-                "desc": "",
-                "res": "dwi",
-                "label": "WholeBrain",
-            },
-            "include_in_inputs": True,
-        },
-    },
-    "register_gm_cropped_to_dwi_reference": {
-        "output_image": {
-            "reference": "dwi_reference",
-            "entities": {
-                "space": "T1w",
-                "suffix": "dseg",
-                "desc": "",
-                "res": "dwi",
-                "label": "GM",
-            },
-            "include_in_inputs": True,
-        },
+        }
+        for key, val in DIFFUSION_TENSOR_OUTPUTS.items()
     },
 }

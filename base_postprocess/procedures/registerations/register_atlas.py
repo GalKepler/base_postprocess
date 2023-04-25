@@ -69,7 +69,7 @@ class RegisterAtlas(Procedure):
                 result[key] = value
         return result
 
-    def run(self, subjects: Union[list, str], force: bool = False) -> None:
+    def run(self, subjects: Union[list, str], force: bool = False) -> dict:
         """
         Run the procedure.
 
@@ -79,6 +79,11 @@ class RegisterAtlas(Procedure):
             The subject to run the procedure on.
         force : bool, optional
             Whether to force the registration, by default False
+
+        Returns
+        -------
+        dict
+            The outputs of the procedure.
         """
         outputs = {}
         if isinstance(subjects, str):
