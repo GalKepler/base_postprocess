@@ -20,6 +20,7 @@ OUTPUT_ENTITIES = {
                 **TENSOR_ENTITIES,
                 "desc": val,
                 "acq": "dti",
+                "reconstruction_software": "dipy",
             },
             "include_in_inputs": True,
         }
