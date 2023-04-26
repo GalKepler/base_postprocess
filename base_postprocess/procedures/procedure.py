@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from pathlib import Path
 
 from base_postprocess.bids.layout.layout import QSIPREPLayout
@@ -41,7 +42,21 @@ class Procedure:
         subject : str
             The subject to collect the inputs for.
         """
-        pass
+        result = {}
+        for key, description in self.REQUIREMENTS.items():
+            scope = description["scope"]
+            entities = description["entities"].copy()
+            entities["subject"] = subject
+            if scope == "session":
+                result[key] = {}
+                for session in self.layout.get_sessions(subject=subject):
+                    entities["session"] = session
+                    value = self.layout.get_file_by_entities(entities)
+                    result[key][session] = value
+            elif scope == "subject":
+                value = self.layout.get_file_by_entities(entities)
+                result[key] = value
+        return result
 
     def build_output_dictionary(self, subject: str) -> None:
         """
@@ -53,6 +68,42 @@ class Procedure:
             The subject to build the output dictionary for.
         """
         pass
+
+    def generate_output_dict(self, step_name: str, inputs: dict) -> dict:
+        """
+        Generate the output dictionary for the procedure.
+
+        Parameters
+        ----------
+        step_name : str
+            The name of the step.
+        inputs : dict
+            The inputs to the step.
+        """
+        outputs = {}
+        outputs_exist = []
+        outputs_config = self.OUTPUTS.get(step_name).copy()
+        for output_name, output_values in outputs_config.items():
+            entities = output_values.get("entities").copy()
+            # if there's an atlas in the class's properties, add it to the entities
+            if hasattr(self, "atlas"):
+                entities["atlas"] = self.atlas.name
+            references = inputs.get(output_values.get("reference"))
+            if isinstance(references, dict):
+                outputs[f"{step_name}_{output_name}"] = {}
+                for session, reference in references.items():
+                    output_entities = self.layout.parse_file_entities(reference)
+                    output_entities.update(entities)
+                    output = self.layout.build_path(output_entities, validate=False)
+                    outputs[f"{step_name}_{output_name}"][session] = output
+                    outputs_exist.append(Path(output).exists())
+            else:
+                output_entities = self.layout.parse_file_entities(references)
+                output_entities.update(entities)
+                output = self.layout.build_path(output_entities, validate=False)
+                outputs[f"{step_name}_{output_name}"] = output
+                outputs_exist.append(Path(output).exists())
+        return outputs, outputs_exist, outputs_config
 
     def update_io_for_step(self, step_name: str, inputs: dict) -> dict:
         """
@@ -70,50 +121,37 @@ class Procedure:
         dict
             The updated inputs.
         """
-        outputs = {}
-        outputs_exist = []
-        outputs_config = self.OUTPUTS.get(step_name).copy()
+        outputs, outputs_exist, outputs_config = self.generate_output_dict(
+            step_name, inputs
+        )
+        mapped_inputs = defaultdict(dict)
         for output_name, output_values in outputs_config.items():
+            scope = output_values.get("scope", "subject")
             include_in_inputs = output_values.get("include_in_inputs", True)
-            entities = output_values.get("entities").copy()
-            entities["atlas"] = self.atlas.name
-            references = inputs.get(output_values.get("reference"))
-            if isinstance(references, dict):
-                mapped_inputs = {}
-                inputs[output_name] = {}
-                outputs[f"{step_name}_{output_name}"] = {}
-                for session, reference in references.items():
-                    output_entities = self.layout.parse_file_entities(reference)
-                    output_entities.update(entities)
-                    output = self.layout.build_path(output_entities, validate=False)
-                    outputs[f"{step_name}_{output_name}"][session] = output
-                    outputs_exist.append(Path(output).exists())
-                    if include_in_inputs:
-                        inputs[output_name][session] = output
-                    mapped_inputs[session] = {
-                        key: inputs.get(val)
-                        if not isinstance(val, dict)
-                        else val.get(session)
-                        for key, val in self.steps.get(step_name).get("inputs").items()
-                    }
-                for session, mapped_input in mapped_inputs.items():
-                    for key, val in mapped_input.items():
-                        if isinstance(val, dict):
-                            mapped_input[key] = val.get(session)
-
-            else:
-                output_entities = self.layout.parse_file_entities(references)
-                output_entities.update(entities)
-                output = self.layout.build_path(output_entities, validate=False)
-                outputs[f"{step_name}_{output_name}"] = output
-                outputs_exist.append(Path(output).exists())
-
-                if include_in_inputs:
-                    inputs[output_name] = output
-                mapped_inputs = {
-                    key: inputs.get(val)
-                    for key, val in self.steps.get(step_name).get("inputs").items()
-                }
+            if include_in_inputs:
+                if scope == "session":
+                    for session, output in outputs[
+                        f"{step_name}_{output_name}"
+                    ].items():
+                        mapped_inputs[session].update(
+                            {
+                                key: inputs.get(val).get(session, val)
+                                for key, val in self.steps.get(step_name)
+                                .get("inputs")
+                                .items()
+                            }
+                        )
+                        mapped_inputs[session][output_name] = output
+                elif scope == "subject":
+                    mapped_inputs[output_name] = outputs[f"{step_name}_{output_name}"]
+                    mapped_inputs.update(
+                        {
+                            key: inputs.get(val)
+                            for key, val in self.steps.get(step_name)
+                            .get("inputs")
+                            .items()
+                        }
+                    )
         return mapped_inputs, outputs, outputs_exist
 
     def run_step(
