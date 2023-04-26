@@ -10,7 +10,7 @@ from base_postprocess.procedures.tensors.tensor_estimation import TensorEstimati
 
 class Mrtrix3TensorEstimation(TensorEstimation):
     """
-    A class used to represent a tensor estimation procedure using Dipy.
+    A class used to represent a tensor estimation procedure using MRTrix3.
 
     Parameters
     ----------
@@ -23,9 +23,9 @@ class Mrtrix3TensorEstimation(TensorEstimation):
     def __init__(
         self,
         layout: QSIPREPLayout,
-        name: str = "dipy_tensor_reconstruction",
+        name: str = "mrtrix3_tensor_reconstruction",
         steps: dict = STEPS,
-        software: str = "dipy",
+        software: str = "mrtrix3",
     ) -> None:
         super().__init__(layout, name, steps, software)
 
