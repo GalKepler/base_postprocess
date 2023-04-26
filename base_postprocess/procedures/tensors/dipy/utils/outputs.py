@@ -14,15 +14,17 @@ TENSOR_ENTITIES = {"suffix": "dwiref", "resolution": "dwi"}
 # Output entities
 OUTPUT_ENTITIES = {
     "reconstruct_dti_workflow": {
-        key: {
+        f"out_{key}": {
             "reference": "dwi_nifti",
             "entities": {
                 **TENSOR_ENTITIES,
                 "desc": val,
-                "acq": "dti",
+                "acquisition": "dti",
+                "res": "dwi",
                 "reconstruction_software": "dipy",
             },
             "include_in_inputs": True,
+            "scope": "session",
         }
         for key, val in DIFFUSION_TENSOR_OUTPUTS.items()
     },

@@ -49,7 +49,12 @@ class DipyTensorEstimation(TensorEstimation):
         if logger:
             logger.info(f"Running {step_name} with inputs: {inputs} {args}")
             logger.info("Executing: ")
-        runner.run(**inputs, **args)
+        try:
+            runner.run(**inputs, **args)
+        except Exception as e:
+            if logger:
+                logger.error(f"Error running {step_name}: {e}")
+            raise e
         if logger:
             logger.info(f"Finished running {step_name}")
 

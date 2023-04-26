@@ -10,5 +10,6 @@ STEPS = {
         },
         "args": {"fit_method": "NLLS"},
         "runner": ReconstDtiFlow,
+        "scope": "session",
     }
 }
