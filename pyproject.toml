@@ -37,7 +37,7 @@ python = "^3.9"
 typer = {extras = ["all"], version = "^0.7.0"}
 rich = "^12.6.0"
 jupyter = "^1.0.0"
-pybids = "^0.15.6"
+pybids = "^0.16.1"
 nipype = "^1.8.6"
 dipy = "^1.6.0"
 
