@@ -92,21 +92,6 @@ dev = ["cogapp", "pre-commit", "pytest", "wheel"]
 tests = ["pytest"]
 
 [[package]]
-name = "arrow"
-version = "1.2.3"
-description = "Better dates & times for Python"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "arrow-1.2.3-py3-none-any.whl", hash = "sha256:5a49ab92e3b7b71d96cd6bfcc4df14efefc9dfa96ea19045815914a6ab6b1fe2"},
-    {file = "arrow-1.2.3.tar.gz", hash = "sha256:3934b30ca1b9f292376d9db15b19446088d12ec58629bc3f0da28fd55fb633a1"},
-]
-
-[package.dependencies]
-python-dateutil = ">=2.7.0"
-
-[[package]]
 name = "astor"
 version = "0.8.1"
 description = "Read/rewrite/write Python ASTs"
@@ -210,25 +195,6 @@ stevedore = ">=1.20.0"
 test = ["beautifulsoup4 (>=4.8.0)", "coverage (>=4.5.4)", "fixtures (>=3.0.0)", "flake8 (>=4.0.0)", "pylint (==1.9.4)", "stestr (>=2.5.0)", "testscenarios (>=0.5.0)", "testtools (>=2.3.0)", "tomli (>=1.1.0)"]
 toml = ["tomli (>=1.1.0)"]
 yaml = ["PyYAML"]
-
-[[package]]
-name = "beautifulsoup4"
-version = "4.12.2"
-description = "Screen-scraping library"
-category = "main"
-optional = false
-python-versions = ">=3.6.0"
-files = [
-    {file = "beautifulsoup4-4.12.2-py3-none-any.whl", hash = "sha256:bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"},
-    {file = "beautifulsoup4-4.12.2.tar.gz", hash = "sha256:492bbc69dca35d12daac71c4db1bfff0c876c00ef4a2ffacce226d4638eb72da"},
-]
-
-[package.dependencies]
-soupsieve = ">1.2"
-
-[package.extras]
-html5lib = ["html5lib"]
-lxml = ["lxml"]
 
 [[package]]
 name = "bids-validator"
@@ -822,6 +788,18 @@ conda = ["pyyaml"]
 pipenv = ["pipenv"]
 
 [[package]]
+name = "entrypoints"
+version = "0.4"
+description = "Discover and load entry points from installed packages."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "entrypoints-0.4-py3-none-any.whl", hash = "sha256:f174b5ff827504fd3cd97cc3f8649f3693f51538c7e4bdf3ef002c8429d42f9f"},
+    {file = "entrypoints-0.4.tar.gz", hash = "sha256:b706eddaa9218a19ebcd67b56818f05bb27589b1ca9e8d797b74affad4ccacd4"},
+]
+
+[[package]]
 name = "etelemetry"
 version = "0.3.0"
 description = "Etelemetry python client API"
@@ -943,18 +921,6 @@ wrapt = ">=1.0"
 [package.extras]
 arrow = ["pyarrow (>=1)"]
 calculus = ["sympy (>=1.3,<1.10)"]
-
-[[package]]
-name = "fqdn"
-version = "1.5.1"
-description = "Validates fully-qualified domain names against RFC 1123, so that they are acceptable to modern bowsers"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0, !=3.1, !=3.2, !=3.3, !=3.4, <4"
-files = [
-    {file = "fqdn-1.5.1-py3-none-any.whl", hash = "sha256:3a179af3761e4df6eb2e026ff9e1a3033d3587bf980a0b1b2e1e5d08d7358014"},
-    {file = "fqdn-1.5.1.tar.gz", hash = "sha256:105ed3677e767fb5ca086a0c1f4bb66ebc3c100be518f0e0d755d9eae164d89f"},
-]
 
 [[package]]
 name = "gitdb"
@@ -1219,21 +1185,6 @@ files = [
 six = "*"
 
 [[package]]
-name = "isoduration"
-version = "20.11.0"
-description = "Operations with ISO 8601 durations"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "isoduration-20.11.0-py3-none-any.whl", hash = "sha256:b2904c2a4228c3d44f409c8ae8e2370eb21a26f7ac2ec5446df141dde3452042"},
-    {file = "isoduration-20.11.0.tar.gz", hash = "sha256:ac2f9015137935279eac671f94f89eb00584f940f5dc49462a0c4ee692ba1bd9"},
-]
-
-[package.dependencies]
-arrow = ">=0.15.0"
-
-[[package]]
 name = "isort"
 version = "5.12.0"
 description = "A Python utility / library to sort Python imports."
@@ -1293,18 +1244,6 @@ MarkupSafe = ">=2.0"
 i18n = ["Babel (>=2.7)"]
 
 [[package]]
-name = "jsonpointer"
-version = "2.3"
-description = "Identify specific nodes in a JSON document (RFC 6901)"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-files = [
-    {file = "jsonpointer-2.3-py2.py3-none-any.whl", hash = "sha256:51801e558539b4e9cd268638c078c6c5746c9ac96bc38152d443400e4f3793e9"},
-    {file = "jsonpointer-2.3.tar.gz", hash = "sha256:97cba51526c829282218feb99dab1b1e6bdf8efd1c43dc9d57be093c0d69c99a"},
-]
-
-[[package]]
 name = "jsonschema"
 version = "4.17.3"
 description = "An implementation of JSON Schema validation for Python"
@@ -1318,15 +1257,7 @@ files = [
 
 [package.dependencies]
 attrs = ">=17.4.0"
-fqdn = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
-idna = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
-isoduration = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
-jsonpointer = {version = ">1.13", optional = true, markers = "extra == \"format-nongpl\""}
 pyrsistent = ">=0.14.0,<0.17.0 || >0.17.0,<0.17.1 || >0.17.1,<0.17.2 || >0.17.2"
-rfc3339-validator = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
-rfc3986-validator = {version = ">0.1.0", optional = true, markers = "extra == \"format-nongpl\""}
-uri-template = {version = "*", optional = true, markers = "extra == \"format-nongpl\""}
-webcolors = {version = ">=1.11", optional = true, markers = "extra == \"format-nongpl\""}
 
 [package.extras]
 format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
@@ -1424,97 +1355,37 @@ docs = ["myst-parser", "sphinx-autodoc-typehints", "sphinxcontrib-github-alt", "
 test = ["ipykernel", "pre-commit", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
-name = "jupyter-events"
-version = "0.6.3"
-description = "Jupyter Event System library"
+name = "jupyter-server"
+version = "1.15.6"
+description = "The backend—i.e. core services, APIs, and REST endpoints—to Jupyter web applications."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyter_events-0.6.3-py3-none-any.whl", hash = "sha256:57a2749f87ba387cd1bfd9b22a0875b889237dbf2edc2121ebb22bde47036c17"},
-    {file = "jupyter_events-0.6.3.tar.gz", hash = "sha256:9a6e9995f75d1b7146b436ea24d696ce3a35bfa8bfe45e0c33c334c79464d0b3"},
-]
-
-[package.dependencies]
-jsonschema = {version = ">=3.2.0", extras = ["format-nongpl"]}
-python-json-logger = ">=2.0.4"
-pyyaml = ">=5.3"
-rfc3339-validator = "*"
-rfc3986-validator = ">=0.1.1"
-traitlets = ">=5.3"
-
-[package.extras]
-cli = ["click", "rich"]
-docs = ["jupyterlite-sphinx", "myst-parser", "pydata-sphinx-theme", "sphinxcontrib-spelling"]
-test = ["click", "coverage", "pre-commit", "pytest (>=7.0)", "pytest-asyncio (>=0.19.0)", "pytest-console-scripts", "pytest-cov", "rich"]
-
-[[package]]
-name = "jupyter-server"
-version = "2.5.0"
-description = "The backend—i.e. core services, APIs, and REST endpoints—to Jupyter web applications."
-category = "main"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "jupyter_server-2.5.0-py3-none-any.whl", hash = "sha256:e6bc1e9e96d7c55b9ce9699ff6cb9a910581fe7349e27c40389acb67632e24c0"},
-    {file = "jupyter_server-2.5.0.tar.gz", hash = "sha256:9fde612791f716fd34d610cd939704a9639643744751ba66e7ee8fdc9cead07e"},
+    {file = "jupyter_server-1.15.6-py3-none-any.whl", hash = "sha256:e393934c19fcc324a7fca77f811eacd91201440f04c6fbb15c959c463baaa9c5"},
+    {file = "jupyter_server-1.15.6.tar.gz", hash = "sha256:56bd6f580d1f46b62294990e8e78651025729f5d3fc798f10f2c03f0cdcbf28d"},
 ]
 
 [package.dependencies]
 anyio = ">=3.1.0"
 argon2-cffi = "*"
 jinja2 = "*"
-jupyter-client = ">=7.4.4"
-jupyter-core = ">=4.12,<5.0.0 || >=5.1.0"
-jupyter-events = ">=0.4.0"
-jupyter-server-terminals = "*"
-nbconvert = ">=6.4.4"
-nbformat = ">=5.3.0"
+jupyter-client = ">=6.1.1"
+jupyter-core = ">=4.6.0"
+nbconvert = "*"
+nbformat = ">=5.2.0"
 packaging = "*"
 prometheus-client = "*"
 pywinpty = {version = "*", markers = "os_name == \"nt\""}
-pyzmq = ">=24"
-send2trash = "*"
+pyzmq = ">=17"
+Send2Trash = "*"
 terminado = ">=0.8.3"
-tornado = ">=6.2.0"
-traitlets = ">=5.6.0"
+tornado = ">=6.1.0"
+traitlets = ">=5"
 websocket-client = "*"
 
 [package.extras]
-docs = ["docutils (<0.20)", "ipykernel", "jinja2", "jupyter-client", "jupyter-server", "mistune (<1.0.0)", "myst-parser", "nbformat", "prometheus-client", "pydata-sphinx-theme", "send2trash", "sphinx-autodoc-typehints", "sphinxcontrib-github-alt", "sphinxcontrib-openapi", "sphinxcontrib-spelling", "sphinxemoji", "tornado", "typing-extensions"]
-test = ["ipykernel", "pre-commit", "pytest (>=7.0)", "pytest-console-scripts", "pytest-jupyter[server] (>=0.4)", "pytest-timeout", "requests"]
-
-[[package]]
-name = "jupyter-server-terminals"
-version = "0.4.4"
-description = "A Jupyter Server Extension Providing Terminals."
-category = "main"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "jupyter_server_terminals-0.4.4-py3-none-any.whl", hash = "sha256:75779164661cec02a8758a5311e18bb8eb70c4e86c6b699403100f1585a12a36"},
-    {file = "jupyter_server_terminals-0.4.4.tar.gz", hash = "sha256:57ab779797c25a7ba68e97bcfb5d7740f2b5e8a83b5e8102b10438041a7eac5d"},
-]
-
-[package.dependencies]
-pywinpty = {version = ">=2.0.3", markers = "os_name == \"nt\""}
-terminado = ">=0.8.3"
-
-[package.extras]
-docs = ["jinja2", "jupyter-server", "mistune (<3.0)", "myst-parser", "nbformat", "packaging", "pydata-sphinx-theme", "sphinxcontrib-github-alt", "sphinxcontrib-openapi", "sphinxcontrib-spelling", "sphinxemoji", "tornado"]
-test = ["coverage", "jupyter-server (>=2.0.0)", "pytest (>=7.0)", "pytest-cov", "pytest-jupyter[server] (>=0.5.3)", "pytest-timeout"]
-
-[[package]]
-name = "jupyterlab-pygments"
-version = "0.2.2"
-description = "Pygments theme using JupyterLab CSS variables"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "jupyterlab_pygments-0.2.2-py2.py3-none-any.whl", hash = "sha256:2405800db07c9f770863bcf8049a529c3dd4d3e28536638bd7c1c01d2748309f"},
-    {file = "jupyterlab_pygments-0.2.2.tar.gz", hash = "sha256:7405d7fde60819d905a9fa8ce89e4cd830e318cdad22a0030f7a901da705585d"},
-]
+test = ["coverage", "ipykernel", "pytest (>=6.0)", "pytest-console-scripts", "pytest-cov", "pytest-mock", "pytest-timeout", "pytest-tornasync", "requests"]
 
 [[package]]
 name = "jupyterlab-widgets"
@@ -1768,14 +1639,14 @@ files = [
 
 [[package]]
 name = "mistune"
-version = "2.0.5"
-description = "A sane Markdown parser with useful plugins and renderers"
+version = "3.0.0"
+description = "A sane and fast Markdown parser with useful plugins and renderers"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "mistune-2.0.5-py2.py3-none-any.whl", hash = "sha256:bad7f5d431886fcbaf5f758118ecff70d31f75231b34024a1341120340a65ce8"},
-    {file = "mistune-2.0.5.tar.gz", hash = "sha256:0246113cb2492db875c6be56974a7c893333bf26cd92891c85f63151cee09d34"},
+    {file = "mistune-3.0.0-py3-none-any.whl", hash = "sha256:32eaf3c092715730f754903698c99cba8474606f66c72c393ebb7f1dfa5c8c48"},
+    {file = "mistune-3.0.0.tar.gz", hash = "sha256:b28444efe542cc9bb9f19fb133740ab020fe5e14fe6ffcce9576d24fbd1e5b20"},
 ]
 
 [[package]]
@@ -1874,66 +1745,36 @@ json-logging = ["json-logging"]
 test = ["coverage", "nbval", "pytest", "pytest-cov", "pytest-jupyter", "pytest-playwright", "pytest-tornasync", "requests", "requests-unixsocket", "testpath"]
 
 [[package]]
-name = "nbclient"
-version = "0.7.4"
-description = "A client library for executing notebooks. Formerly nbconvert's ExecutePreprocessor."
-category = "main"
-optional = false
-python-versions = ">=3.7.0"
-files = [
-    {file = "nbclient-0.7.4-py3-none-any.whl", hash = "sha256:c817c0768c5ff0d60e468e017613e6eae27b6fa31e43f905addd2d24df60c125"},
-    {file = "nbclient-0.7.4.tar.gz", hash = "sha256:d447f0e5a4cfe79d462459aec1b3dc5c2e9152597262be8ee27f7d4c02566a0d"},
-]
-
-[package.dependencies]
-jupyter-client = ">=6.1.12"
-jupyter-core = ">=4.12,<5.0.0 || >=5.1.0"
-nbformat = ">=5.1"
-traitlets = ">=5.3"
-
-[package.extras]
-dev = ["pre-commit"]
-docs = ["autodoc-traits", "mock", "moto", "myst-parser", "nbclient[test]", "sphinx (>=1.7)", "sphinx-book-theme", "sphinxcontrib-spelling"]
-test = ["flaky", "ipykernel", "ipython", "ipywidgets", "nbconvert (>=7.0.0)", "pytest (>=7.0)", "pytest-asyncio", "pytest-cov (>=4.0)", "testpath", "xmltodict"]
-
-[[package]]
 name = "nbconvert"
-version = "7.3.1"
+version = "5.5.0"
 description = "Converting Jupyter Notebooks"
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 files = [
-    {file = "nbconvert-7.3.1-py3-none-any.whl", hash = "sha256:d2e95904666f1ff77d36105b9de4e0801726f93b862d5b28f69e93d99ad3b19c"},
-    {file = "nbconvert-7.3.1.tar.gz", hash = "sha256:78685362b11d2e8058e70196fe83b09abed8df22d3e599cf271f4d39fdc48b9e"},
+    {file = "nbconvert-5.5.0-py2.py3-none-any.whl", hash = "sha256:4a978548d8383f6b2cfca4a3b0543afb77bc7cb5a96e8b424337ab58c12da9bc"},
+    {file = "nbconvert-5.5.0.tar.gz", hash = "sha256:138381baa41d83584459b5cfecfc38c800ccf1f37d9ddd0bd440783346a4c39c"},
 ]
 
 [package.dependencies]
-beautifulsoup4 = "*"
 bleach = "*"
 defusedxml = "*"
-importlib-metadata = {version = ">=3.6", markers = "python_version < \"3.10\""}
-jinja2 = ">=3.0"
-jupyter-core = ">=4.7"
-jupyterlab-pygments = "*"
-markupsafe = ">=2.0"
-mistune = ">=2.0.3,<3"
-nbclient = ">=0.5.0"
-nbformat = ">=5.1"
-packaging = "*"
+entrypoints = ">=0.2.2"
+jinja2 = ">=2.4"
+jupyter-core = "*"
+mistune = ">=0.8.1"
+nbformat = ">=4.4"
 pandocfilters = ">=1.4.1"
-pygments = ">=2.4.1"
-tinycss2 = "*"
-traitlets = ">=5.0"
+pygments = "*"
+testpath = "*"
+traitlets = ">=4.2"
 
 [package.extras]
-all = ["nbconvert[docs,qtpdf,serve,test,webpdf]"]
-docs = ["ipykernel", "ipython", "myst-parser", "nbsphinx (>=0.2.12)", "pydata-sphinx-theme", "sphinx (==5.0.2)", "sphinxcontrib-spelling"]
-qtpdf = ["nbconvert[qtpng]"]
-qtpng = ["pyqtwebengine (>=5.15)"]
-serve = ["tornado (>=6.1)"]
-test = ["ipykernel", "ipywidgets (>=7)", "pre-commit", "pytest", "pytest-dependency"]
-webpdf = ["pyppeteer (>=1,<1.1)"]
+all = ["ipykernel", "ipython", "ipywidgets (>=7)", "jupyter-client (>=4.2)", "nbsphinx (>=0.2.12)", "pytest", "pytest-cov", "sphinx (>=1.5.1)", "sphinx-rtd-theme", "sphinxcontrib-github-alt", "tornado (>=4.0)"]
+docs = ["ipython", "jupyter-client (>=4.2)", "nbsphinx (>=0.2.12)", "sphinx (>=1.5.1)", "sphinx-rtd-theme", "sphinxcontrib-github-alt"]
+execute = ["jupyter-client (>=4.2)"]
+serve = ["tornado (>=4.0)"]
+test = ["ipykernel", "ipywidgets (>=7)", "jupyter-client (>=4.2)", "pytest", "pytest-cov"]
 
 [[package]]
 name = "nbformat"
@@ -2799,18 +2640,6 @@ files = [
 six = ">=1.5"
 
 [[package]]
-name = "python-json-logger"
-version = "2.0.7"
-description = "A python library adding a json log formatter"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "python-json-logger-2.0.7.tar.gz", hash = "sha256:23e7ec02d34237c5aa1e29a070193a4ea87583bb4e7f8fd06d3de8264c4b2e1c"},
-    {file = "python_json_logger-2.0.7-py3-none-any.whl", hash = "sha256:f380b826a991ebbe3de4d897aeec42760035ac760345e57b812938dc8b35e2bd"},
-]
-
-[[package]]
 name = "pytz"
 version = "2023.3"
 description = "World timezone definitions, modern and historical"
@@ -2881,7 +2710,7 @@ files = [
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -3107,33 +2936,6 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
-name = "rfc3339-validator"
-version = "0.1.4"
-description = "A pure python RFC3339 validator"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-files = [
-    {file = "rfc3339_validator-0.1.4-py2.py3-none-any.whl", hash = "sha256:24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa"},
-    {file = "rfc3339_validator-0.1.4.tar.gz", hash = "sha256:138a2abdf93304ad60530167e51d2dfb9549521a836871b88d7f4695d0022f6b"},
-]
-
-[package.dependencies]
-six = "*"
-
-[[package]]
-name = "rfc3986-validator"
-version = "0.1.1"
-description = "Pure python rfc3986 validator"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-files = [
-    {file = "rfc3986_validator-0.1.1-py2.py3-none-any.whl", hash = "sha256:2f235c432ef459970b4306369336b9d5dbdda31b510ca1e327636e01f528bfa9"},
-    {file = "rfc3986_validator-0.1.1.tar.gz", hash = "sha256:3d44bde7921b3b9ec3ae4e3adca370438eccebc676456449b145d533b240d055"},
-]
-
-[[package]]
 name = "rich"
 version = "12.6.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
@@ -3186,7 +2988,8 @@ files = [
     {file = "ruamel.yaml.clib-0.2.7-cp310-cp310-win32.whl", hash = "sha256:763d65baa3b952479c4e972669f679fe490eee058d5aa85da483ebae2009d231"},
     {file = "ruamel.yaml.clib-0.2.7-cp310-cp310-win_amd64.whl", hash = "sha256:d000f258cf42fec2b1bbf2863c61d7b8918d31ffee905da62dede869254d3b8a"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:045e0626baf1c52e5527bd5db361bc83180faaba2ff586e763d3d5982a876a9e"},
-    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_12_6_arm64.whl", hash = "sha256:721bc4ba4525f53f6a611ec0967bdcee61b31df5a56801281027a3a6d1c2daf5"},
+    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_13_0_arm64.whl", hash = "sha256:1a6391a7cabb7641c32517539ca42cf84b87b667bad38b78d4d42dd23e957c81"},
+    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-manylinux2014_aarch64.whl", hash = "sha256:9c7617df90c1365638916b98cdd9be833d31d337dbcd722485597b43c4a215bf"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:41d0f1fa4c6830176eef5b276af04c89320ea616655d01327d5ce65e50575c94"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-win32.whl", hash = "sha256:f6d3d39611ac2e4f62c3128a9eed45f19a6608670c5a2f4f07f24e8de3441d38"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-win_amd64.whl", hash = "sha256:da538167284de58a52109a9b89b8f6a53ff8437dd6dc26d33b57bf6699153122"},
@@ -3470,18 +3273,6 @@ files = [
 ]
 
 [[package]]
-name = "soupsieve"
-version = "2.4.1"
-description = "A modern CSS selector implementation for Beautiful Soup."
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "soupsieve-2.4.1-py3-none-any.whl", hash = "sha256:1c1bfee6819544a3447586c889157365a27e10d88cde3ad3da0cf0ddf646feb8"},
-    {file = "soupsieve-2.4.1.tar.gz", hash = "sha256:89d12b2d5dfcd2c9e8c22326da9d9aa9cb3dfab0a83a024f05704076ee8d35ea"},
-]
-
-[[package]]
 name = "sqlalchemy"
 version = "1.3.24"
 description = "Database Abstraction Library"
@@ -3594,23 +3385,19 @@ docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["pre-commit", "pytest (>=7.0)", "pytest-timeout"]
 
 [[package]]
-name = "tinycss2"
-version = "1.2.1"
-description = "A tiny CSS parser"
+name = "testpath"
+version = "0.6.0"
+description = "Test utilities for code working with files and commands"
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">= 3.5"
 files = [
-    {file = "tinycss2-1.2.1-py3-none-any.whl", hash = "sha256:2b80a96d41e7c3914b8cda8bc7f705a4d9c49275616e886103dd839dfc847847"},
-    {file = "tinycss2-1.2.1.tar.gz", hash = "sha256:8cff3a8f066c2ec677c06dbc7b45619804a6938478d9d73c284b29d14ecb0627"},
+    {file = "testpath-0.6.0-py3-none-any.whl", hash = "sha256:8ada9f80a2ac6fb0391aa7cdb1a7d11cfa8429f693eda83f74dde570fe6fa639"},
+    {file = "testpath-0.6.0.tar.gz", hash = "sha256:2f1b97e6442c02681ebe01bd84f531028a7caea1af3825000f52345c30285e0f"},
 ]
 
-[package.dependencies]
-webencodings = ">=0.4"
-
 [package.extras]
-doc = ["sphinx", "sphinx_rtd_theme"]
-test = ["flake8", "isort", "pytest"]
+test = ["pytest"]
 
 [[package]]
 name = "tokenize-rt"
@@ -3816,21 +3603,6 @@ files = [
 ]
 
 [[package]]
-name = "uri-template"
-version = "1.2.0"
-description = "RFC 6570 URI Template Processor"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "uri_template-1.2.0-py3-none-any.whl", hash = "sha256:f1699c77b73b925cf4937eae31ab282a86dc885c333f2e942513f08f691fc7db"},
-    {file = "uri_template-1.2.0.tar.gz", hash = "sha256:934e4d09d108b70eb8a24410af8615294d09d279ce0e7cbcdaef1bd21f932b06"},
-]
-
-[package.extras]
-dev = ["flake8 (<4.0.0)", "flake8-annotations", "flake8-bugbear", "flake8-commas", "flake8-comprehensions", "flake8-continuation", "flake8-datetimez", "flake8-docstrings", "flake8-import-order", "flake8-literal", "flake8-noqa", "flake8-requirements", "flake8-type-annotations", "flake8-use-fstring", "mypy", "pep8-naming"]
-
-[[package]]
 name = "urllib3"
 version = "1.26.15"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -3879,22 +3651,6 @@ files = [
     {file = "wcwidth-0.2.6-py2.py3-none-any.whl", hash = "sha256:795b138f6875577cd91bba52baf9e445cd5118fd32723b460e30a0af30ea230e"},
     {file = "wcwidth-0.2.6.tar.gz", hash = "sha256:a5220780a404dbe3353789870978e472cfe477761f06ee55077256e509b156d0"},
 ]
-
-[[package]]
-name = "webcolors"
-version = "1.13"
-description = "A library for working with the color formats defined by HTML and CSS."
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "webcolors-1.13-py3-none-any.whl", hash = "sha256:29bc7e8752c0a1bd4a1f03c14d6e6a72e93d82193738fa860cbff59d0fcc11bf"},
-    {file = "webcolors-1.13.tar.gz", hash = "sha256:c225b674c83fa923be93d235330ce0300373d02885cef23238813b0d5668304a"},
-]
-
-[package.extras]
-docs = ["furo", "sphinx", "sphinx-copybutton", "sphinx-inline-tabs", "sphinx-notfound-page", "sphinxext-opengraph"]
-tests = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "webencodings"
@@ -4041,4 +3797,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "40830d396c69a9f00ab32d1209c8325a80a6f907d15df51853a1134080633b57"
+content-hash = "4b3e403e8f9f591bbe08aa59d4282fca6a0a32ec3ee9944cd76a09549c596ca7"
